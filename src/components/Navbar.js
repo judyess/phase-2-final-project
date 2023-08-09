@@ -1,4 +1,5 @@
 import React from "react";
+//import { NavLink } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 function Navbar(){
@@ -11,6 +12,9 @@ function Navbar(){
             </NavLink></li>
             <li><NavLink to="/about" exact>
                 About
+            </NavLink></li>
+            <li><NavLink to="/form" exact>
+                Form
             </NavLink></li>
             </ul>
         </div>
