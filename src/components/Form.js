@@ -1,4 +1,5 @@
 import {React, useState, useEffect} from "react";
+import Display from "./Display"
 
 function Form (){
     const objs = {};
@@ -45,6 +46,7 @@ function Form (){
                     <input type="text" onChange={handleHeaders}></input>
                     <button type="submit">submit</button>
                 </form>
+                <Display data = {objs} />
         </div>
     )
 }
