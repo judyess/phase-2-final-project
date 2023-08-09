@@ -18,3 +18,9 @@ with data in db.json
 run server with >> json-server --watch db.json
 
 keep data simple, no nested data
+
+
+-------------------
+how-to use:
+start the server:
+    run >> json-server --watch db.json
