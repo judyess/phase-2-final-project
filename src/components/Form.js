@@ -32,7 +32,7 @@ function Form (){
                 "tblData" : objs
             }),
             headers: {"content-type": "application/json; charset=UTF-8"}
-        }).then((response)=>response.json())
+        }).then((response) => response.json())
         .then((data) => console.log(data))
     }
     
