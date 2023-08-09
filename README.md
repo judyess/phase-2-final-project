@@ -1,11 +1,13 @@
-# Getting Started with Create React App
+8/9
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+id is set to the table's title, so it can be accessed by URI.
+(need to catch errors for duplicate table names)
 
-## Available Scripts
+table data is an object of header keys with array values.
 
-In the project directory, you can run:
+next: 
 
+<<<<<<< HEAD
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -76,3 +78,6 @@ keep data simple, no nested data
 how-to use:
 start the server:
     run >> json-server --watch db.json
+=======
+See how I can reset the server
+>>>>>>> 46194e1a32f66247fcbc5502a75724c99a809911
