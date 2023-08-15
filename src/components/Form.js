@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-
-export default Form;
-=======
-import {React, useState, useEffect} from "react";
-import Display from "./Display"
+import {React, useState} from "react";
+//import Display from "./Display"
 
 function Form (){
     const objs = {};
@@ -24,7 +20,7 @@ function Form (){
         let headers;
         headers = `${tblHeaders}`; // have to convert to string before I can separate the headers
         headers = headers.split(",").map((item) => item.trim());
-        const headerObjs =  headers.forEach((header)=> {return objs[header]= []});
+        headers.forEach((header)=> {return objs[header]= []});
     }
 
     function post(event) { 
@@ -50,10 +46,8 @@ function Form (){
                     <input type="text" onChange={handleHeaders}></input>
                     <button type="submit">submit</button>
                 </form>
-                <Display data = {objs} />
         </div>
     )
 }
 
 export default Form;
->>>>>>> 46194e1a32f66247fcbc5502a75724c99a809911
