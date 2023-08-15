@@ -1,34 +1,27 @@
-import {React, useEffect} from "react";
+import {React} from "react";
 
 
 function Display(props) {
 
-    
-    useEffect(() =>{
-      print();
-    }, []);
-    
 
-    function print() {
-        console.log(props)
+    function click(item) {
+        //event.preventDefault();
+        console.log(item)
     }
-
-    function renderElements(arr=props) { 
-        const tableBody = document.querySelector('.tableBody');
-        const headers = document.getElementsByClassName("tblHeader");
-        console.log(headers);
-        arr.forEach(element => {
-          const tr = document.createElement('tr');
-          tr.setAttribute('class', 'rowData');
-          tableBody.appendChild(tr);
-          for(let i = 0; i < headers.length; i++){ 
-            const td = document.createElement("td");
-            const key = headers[i].getAttribute('id');
-            tr.appendChild(td);
-            td.innerHTML = element[`${key}`]; 
-          }
-        });
-      }
+      
+        const element= props.tblData.map((element, key)=>{
+            return(
+                <tr key={key} onClick={()=>click(element)} >
+                    <td>{element.number}</td>
+                    <td>{element.name}</td>
+                    <td>{element.abbreviation}</td>
+                    <td>{element.atomicMass}</td>
+                    <td>{element.period}</td>
+                </tr>
+            )
+        })
+        
+        
 
 
     return (
@@ -43,6 +36,9 @@ function Display(props) {
                         <th className="tblHeader" id="period">Period</th>
                     </tr>
                 </thead>
+                <tbody>
+                    {element}
+                </tbody>
             </table>
         </div>
         

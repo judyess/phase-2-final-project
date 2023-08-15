@@ -7,7 +7,6 @@ table data is an object of header keys with array values.
 
 next: 
 
-<<<<<<< HEAD
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -78,6 +77,3 @@ keep data simple, no nested data
 how-to use:
 start the server:
     run >> json-server --watch db.json
-=======
-See how I can reset the server
->>>>>>> 46194e1a32f66247fcbc5502a75724c99a809911
