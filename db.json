@@ -1,4 +1,24 @@
 {
+  "custom": [
+    {
+      "id": "test",
+      "tblData": {
+        "a": ["one"],
+        "b": ["two"],
+        "c": ["three"],
+        "d": ["four"]
+      }
+    },
+    {
+      "id": "test2",
+      "tblData": {
+        "e": ["five"],
+        "f": ["six"],
+        "g": ["seven"],
+        "h": ["eight"]
+      }
+    }
+  ],
   "elements": [
     {
       "number": 1,
