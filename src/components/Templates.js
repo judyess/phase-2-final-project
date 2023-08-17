@@ -19,25 +19,12 @@ function Templates (props){
         setTblHeaders(`${event.target.value}`);
     }
     
-    function handleHeaderData(event) {
-
-    }
-    
     function formatHeaders() {
         let headers;
         headers = `${tblHeaders}`; // have to convert to string before I can separate the headers
         headers = headers.split(",").map((item) => item.trim());
         headers.forEach((header)=> {return objs[header]= []});
     }
-
-    function post(event) { 
-        event.preventDefault();
-        if (selection === "newTemplate"){
-            console.log("new Template");
-        }
-        else {
-
-        }}
 
         function addMore(){
             return(
@@ -46,12 +33,10 @@ function Templates (props){
                     <select>
                         <option onClick={console.log("add more")}>Add More</option>
                     </select>
-                    
                 </div>
-                
             )
         }
-        /* 
+        /* OLD TABLE POST
         formatHeaders();  
         fetch("http://localhost:3000/custom", {
             method: "POST",
@@ -66,25 +51,39 @@ function Templates (props){
        
 
     const listAll = props.data.map((template) =>{
-        //console.log(template);
         return(
             <option key={template.id} value={template.id}>{template.id}</option>
         )
-        
     })
 
     function optionHandler(event) {
         event.preventDefault();
         setSelection(event.target.value);
-
+        mkForm(event.target.value);
     }
-    function get() {
-        fetch(`http://localhost:3000/custom/${selection}`)
-                .then((response)=>response.json())
-                .then((data) => {
-                    setTemplateId(data.id);
-                    setTemplateData(data.tblData); //returns all headers and their data
-                })
+
+    // this function creates the form from given arguments
+    function form(title="", headerData=[]) {
+        const data = Object.entries(headerData);
+        console.log("successfully sent to form");
+        console.log(data);
+    }
+
+ 
+    // this function gets specific json obj data and sends it to form()
+    // if obj exists then get and send data to form, else, send no args to form.
+    function mkForm(selection) {
+        if(selection !== "newTemplate"){
+            fetch(`http://localhost:3000/custom/${selection}`)
+            .then((response) => response.json())
+            .then((data)=>{
+                console.log(data)
+                console.log(data.tblData);
+                form({selection}, Object.entries(data.tblData));
+            })
+        } else{
+            form();
+        }
     }
     
     return(
@@ -93,17 +92,7 @@ function Templates (props){
                 <option value="newTemplate"></option>
                 {listAll}
             </select>
-            <form onSubmit={post}>
-                    <label>Title : </label>
-                    <input type="text" onChange={handleTitle}></input>
-
-                            <label>Headers : </label>
-                            <input type="text" value={templateId} onChange={handleHeaders} />
-                            <input type="text" value={templateData} onChange={handleHeaderData} />
-
-                    
-                    <button type="submit">submit</button>  
-            </form>
+            {form}
         </div>
     )
 }
