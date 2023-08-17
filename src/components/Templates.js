@@ -71,13 +71,15 @@ function Templates (props){
  
     // this function gets specific json obj data and sends it to form()
     // if obj exists then get and send data to form, else, send no args to form.
-    function mkForm(selection) {
+    function mkForm(event) {
+        const selection = event.target.value;
         if(selection !== "newTemplate"){
             fetch(`http://localhost:3000/custom/${selection}`)
             .then((response) => response.json())
             .then((data)=>{
                 console.log(data)
                 console.log(data.tblData);
+                setTemplateId(data.id);
                 setTemplateData(Object.entries(data.tblData));
             })
         } else{
@@ -88,11 +90,11 @@ function Templates (props){
     
     return(
         <div>
-            <select onChange={optionHandler}>
+            <select onChange={mkForm}>
                 <option value="newTemplate"></option>
                 {listAll}
             </select>
-            <Form title={selection} data={templateData} />
+            <Form title={templateId} data={templateData} />
         </div>
     )
 }

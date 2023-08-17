@@ -1,19 +1,33 @@
-import {React, useState} from "react";
+import {React, useEffect, useState} from "react";
+//create a reset button that restores input fields to original server data
+function Form({ title, data}) {
 
-function Form({title, data}) {
     const [currentTitle, setTitle] = useState(title);
+    const [currentData, setData] = useState(data);
+    const thisTitle = title;
+
+    useEffect(()=>{
+        update();
+    }, [title]) // watches title bc the dropdown options change this
+
+    function update() {
+        setTitle(title);
+        setData(data);
+    }
 
     const showData = data.map((item)=>{
         return(
-            <div onChange={pair}>
-                <input value={item[0]}/> <input value={item[1]} />
+            <div key={data.indexOf(item)}>
+                <input type="text" value={item[0]} onChange={pair}/><input type="text" value={item[1]} onChange={pair}/>
             </div>
         )
     })
 
     function handleNewTitle(event) {
         event.preventDefault();
-        setTitle(event.target.value)
+        let newTitle = event.target.value;
+        setTitle(newTitle)
+        console.log(currentTitle);
     }
 
     function patch() {
@@ -25,7 +39,7 @@ function Form({title, data}) {
     return(
         <div>
             <form onSubmit={patch}>
-                <input value={title} onChange={handleNewTitle}/>
+                <input value={currentTitle} onChange={handleNewTitle}/>
                 {showData}
             </form>
         </div>
