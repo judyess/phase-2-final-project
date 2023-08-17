@@ -1,24 +1,19 @@
 import {React, useState} from "react";
-//import Display from "./Display"
+import Form from "./Form"
 
 function Templates (props){
     const objs = {};
-    const [tblTitle, setTblTitle] = useState("new-table");
     const [tblHeaders, setTblHeaders] = useState([]);
     const [templateId, setTemplateId] = useState("");
     const [templateData, setTemplateData] = useState([]);
     const [selection, setSelection] = useState();
 
-    function handleTitle(event) {
-        event.preventDefault();
-        setTblTitle(event.target.value);
-    }
 
+    // these two functions were for the table creator idea
     function handleHeaders(event) {
         event.preventDefault();
         setTblHeaders(`${event.target.value}`);
     }
-    
     function formatHeaders() {
         let headers;
         headers = `${tblHeaders}`; // have to convert to string before I can separate the headers
@@ -26,6 +21,7 @@ function Templates (props){
         headers.forEach((header)=> {return objs[header]= []});
     }
 
+    // this function is supposed to add new input fields for the user to add more data, needs work
         function addMore(){
             return(
                 <div>
@@ -47,6 +43,16 @@ function Templates (props){
             headers: {"content-type": "application/json; charset=UTF-8"}
         }).then((response) => response.json())
         .then((data) => console.log(data))
+        -----------------------------
+        This function was for the table app idea. 
+        It posts data to the server in this format: (where "objs" is formatted in formatHeaders())
+        { custom: [
+            {id: title,
+            tblData: [
+                header: []
+                header2: []
+            ]}
+        ]}
         */
        
 
@@ -62,13 +68,6 @@ function Templates (props){
         mkForm(event.target.value);
     }
 
-    // this function creates the form from given arguments
-    function form(title="", headerData=[]) {
-        const data = Object.entries(headerData);
-        console.log("successfully sent to form");
-        console.log(data);
-    }
-
  
     // this function gets specific json obj data and sends it to form()
     // if obj exists then get and send data to form, else, send no args to form.
@@ -79,10 +78,11 @@ function Templates (props){
             .then((data)=>{
                 console.log(data)
                 console.log(data.tblData);
-                form({selection}, Object.entries(data.tblData));
+                setTemplateData(Object.entries(data.tblData));
             })
         } else{
-            form();
+            setTemplateId("");
+            setTemplateData([]);
         }
     }
     
@@ -92,7 +92,7 @@ function Templates (props){
                 <option value="newTemplate"></option>
                 {listAll}
             </select>
-            {form}
+            <Form title={selection} data={templateData} />
         </div>
     )
 }
