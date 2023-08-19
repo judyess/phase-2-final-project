@@ -38,7 +38,6 @@ function Display(props) {
             return(
                 <option>{template.id}</option>
             )
-            
         })
       
 

@@ -77,10 +77,12 @@ function Templates (props){
             fetch(`http://localhost:3000/custom/${selection}`)
             .then((response) => response.json())
             .then((data)=>{
+                const strData = JSON.stringify(data);
                 console.log(data)
-                console.log(data.tblData);
+                console.log(`data.tblData + ${strData}`);
+                console.log(Object.entries(data.tblData));
                 setTemplateId(data.id);
-                setTemplateData(Object.entries(data.tblData));
+                setTemplateData(data.tblData);
             })
         } else{
             setTemplateId("");
