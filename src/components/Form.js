@@ -11,14 +11,16 @@ function Form({ title, data}) {
     const [thisValue, setValue] = useState(data[currentValue]);
     const [thisKey, setKey] = useState(data[currentKey]);
 
-    const dataArray = Object.entries(data);
-    const testObj = data;
+    const dataArray = [...Object.entries(data)];
+    const testObj = {...data};
     const [deleteItems, setDeleteItems] = useState([]);
-    const [newPair, setNewPair] = useState([])
-    //let deleteItems=[];
+
+
 
     useEffect(()=>{
         update();
+        
+        //console.log("used effect")
     }, [title]) // watches title bc the dropdown options change this and I need the form to update on change
 
     function update() {
@@ -29,33 +31,41 @@ function Form({ title, data}) {
     function handleNewTitle(event) {
         event.preventDefault();
         let newTitle = event.target.value;
-        setTitle(newTitle)
+        setTitle(()=>newTitle)
         console.log(currentTitle);
     }
 
     // adding to DeleteItems works, but a new input is created everytime the change event is triggered
     function handleKey(event, item){
         event.preventDefault();
-        setKey(event.target.value);
         let newKey = event.target.value;
         if (!deleteItems.includes(item[0])){
             setDeleteItems((deleteItems)=>[...deleteItems, item[0]]); //works but now creates new inputs
         }
-        console.log(testObj)
-        console.log(`deleteItems: ${deleteItems}`);
-        //testObj[newKey] = thisValue;
+        console.log(newKey);
+        //console.log(thisKey);
 
     }
-    // works, label changes with input though
-    function handleValue(event, thisKey){
+    // works, label changes with input when any key changes
+    function handleValue(event, key){
         event.preventDefault();
-        console.log(`thisKey: ${thisKey}`)
-        setValue(event.target.value);
+        let newValue = event.target.value;
+        //setValue((thisValue)=>newValue);
+        testObj[key] = newValue;
         let strTestObj = JSON.stringify(testObj) // for testing only
         console.log(`testObj ${strTestObj}`);   
-        console.log(testObj[thisKey])
+
     }
 
+    function print(event) {
+        event.preventDefault();
+        console.log(`dataArray: ${dataArray}`);
+        console.log(`deleteItems: ${JSON.stringify(deleteItems)}`);
+        console.log(`testObj: ${JSON.stringify(testObj)}`);
+        console.log(`title: ${title}`)
+        console.log(`data: ${JSON.stringify(data)}`);
+
+    }
 
 
     //figure out how to reference the keys and values so the input box values reflect changes and so they remain a pair
@@ -69,7 +79,7 @@ function Form({ title, data}) {
                 <label>{currentKey}</label>
                 <input type="text" id={`key${index}`} placeholder={item[0]} onChange={(event)=>handleKey(event, item)} />
                 <label>{currentValue}</label>
-                <input type="text" placeholder={item[1]} onChange={(event)=>handleValue(event, item[0])}/>
+                <input type="text" id={`value${index}`}placeholder={item[1]} onChange={(event)=>handleValue(event, item[0])}/>
                 
             </div>
         )
@@ -77,9 +87,10 @@ function Form({ title, data}) {
 
     return(
         <div>
-            <form>
+            <form id="myForm" onSubmit={print}>
                 <input value={currentTitle} onChange={handleNewTitle}/>
                 {showData}
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
