@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useEffect, useState} from "react";
 import Form from "./Form"
 
 function Templates (props){
@@ -6,7 +6,7 @@ function Templates (props){
     const [tblHeaders, setTblHeaders] = useState([]);
     const [templateId, setTemplateId] = useState("");
     const [templateData, setTemplateData] = useState([]);
-    const [selection, setSelection] = useState();
+    const [achange, setChange] = useState(false);
 
 
     // these two functions were for the table creator idea
@@ -14,6 +14,15 @@ function Templates (props){
         event.preventDefault();
         setTblHeaders(`${event.target.value}`);
     }
+
+    function trackChange(){
+        setChange((change)=>!change);
+    }
+
+    useEffect(()=>{}, [achange, templateId])
+
+    //this function creates an array by separating a string at the comma, and trims the spaces
+    // then creates a new keys in an object
     function formatHeaders() {
         let headers;
         headers = `${tblHeaders}`; // have to convert to string before I can separate the headers
@@ -32,28 +41,6 @@ function Templates (props){
                 </div>
             )
         }
-        /* OLD TABLE POST
-        formatHeaders();  
-        fetch("http://localhost:3000/custom", {
-            method: "POST",
-            body: JSON.stringify({
-                "id" : `${tblTitle}`,
-                "tblData" : objs
-            }),
-            headers: {"content-type": "application/json; charset=UTF-8"}
-        }).then((response) => response.json())
-        .then((data) => console.log(data))
-        -----------------------------
-        This function was for the table app idea. 
-        It posts data to the server in this format: (where "objs" is formatted in formatHeaders())
-        { custom: [
-            {id: title,
-            tblData: [
-                header: []
-                header2: []
-            ]}
-        ]}
-        */
        
 
     const listAll = props.data.map((template) =>{
@@ -62,11 +49,6 @@ function Templates (props){
         )
     })
 
-    function optionHandler(event) {
-        event.preventDefault();
-        setSelection(event.target.value);
-        mkForm(event.target.value);
-    }
 
  
     // this function gets specific json obj data and sends it to form()
@@ -76,18 +58,30 @@ function Templates (props){
         if(selection !== "newTemplate"){
             fetch(`http://localhost:3000/custom/${selection}`)
             .then((response) => response.json())
-            .then((data)=>{
-                const strData = JSON.stringify(data);
-                console.log(data)
-                console.log(`data.tblData + ${strData}`);
-                console.log(Object.entries(data.tblData));
-                setTemplateId(data.id);
-                setTemplateData(data.tblData);
+            .then((objData)=>{
+                const strData = JSON.stringify(objData);
+                console.log(objData)
+                console.log(`objData.data + ${strData}`);
+                console.log(Object.entries(objData.data));
+                setTemplateId(objData.id);
+                setTemplateData(objData.data);
             })
         } else{
             setTemplateId("");
             setTemplateData([]);
         }
+    }
+
+    function postChanges(obj, title){
+        console.log(obj);
+        console.log(title);
+        fetch(`http://localhost:3000/custom/${title}`,{
+            method: "PUT",
+            body: JSON.stringify({
+                data:obj}),
+            headers: {"Content-type": "application/JSON; charset=UTF-8"}
+        }) .then((response) => response.json())
+        .then((newData) => {console.log(newData); setTemplateData((oldData)=>oldData = newData.data)});
     }
     
     return(
@@ -96,7 +90,7 @@ function Templates (props){
                 <option value="newTemplate"></option>
                 {listAll}
             </select>
-            <Form title={templateId} data={templateData} />
+            <Form title={templateId} data={templateData} change={postChanges} />
         </div>
     )
 }

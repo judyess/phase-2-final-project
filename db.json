@@ -1,22 +1,23 @@
 {
   "custom": [
     {
-      "id": "test",
-      "tblData": {
-        "a": ["one"],
-        "b": ["two"],
-        "c": ["three"],
-        "d": ["four"]
-      }
+      "data": {
+        "a": "agf",
+        "b": "xnm",
+        "c": "asd",
+        "d": "dfh",
+        "e": "awe"
+      },
+      "id": "test"
     },
     {
-      "id": "test2",
-      "tblData": {
-        "e": ["five"],
-        "f": ["six"],
-        "g": ["seven"],
-        "h": ["eight"]
-      }
+      "data": {
+        "e": "dfnb",
+        "f": "shg",
+        "g": "sdffasd",
+        "h": "sdgsdf"
+      },
+      "id": "test2"
     }
   ]
 }
