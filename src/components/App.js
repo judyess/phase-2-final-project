@@ -21,7 +21,7 @@ function App() {
         <Switch>
           <Route exact path="/"><Home /></Route>
           <Route exact path="/templates"><Templates data = {data}/></Route>
-          <Route exact path="/display"><Display data = {data}/></Route>
+          {/*<Route exact path="/display"><Display data = {data}/></Route>*/}
         </Switch>
     </div>
   );

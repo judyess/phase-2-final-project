@@ -3,57 +3,27 @@ import Form from "./Form"
 
 function Templates (props){
     const objs = {};
-    const [tblHeaders, setTblHeaders] = useState([]);
     const [templateId, setTemplateId] = useState("");
     const [templateData, setTemplateData] = useState([]);
-    const [achange, setChange] = useState(false);
+    const [selectedObj, setSelectedObj] = useState();
+
+    useEffect((x) => {
+        console.log("used effect");
+    }, selectedObj);
+
+    //console.log(props.data[1].id);
 
 
-    // these two functions were for the table creator idea
-    function handleHeaders(event) {
-        event.preventDefault();
-        setTblHeaders(`${event.target.value}`);
-    }
 
-    function trackChange(){
-        setChange((change)=>!change);
-    }
+    const listTemplates = props.data.map((template) =>{
 
-    useEffect(()=>{}, [achange, templateId])
-
-    //this function creates an array by separating a string at the comma, and trims the spaces
-    // then creates a new keys in an object
-    function formatHeaders() {
-        let headers;
-        headers = `${tblHeaders}`; // have to convert to string before I can separate the headers
-        headers = headers.split(",").map((item) => item.trim());
-        headers.forEach((header)=> {return objs[header]= []});
-    }
-
-    // this function is supposed to add new input fields for the user to add more data, needs work
-        function addMore(){
-            return(
-                <div>
-                    <input type="text" class="header"/>
-                    <select>
-                        <option onClick={console.log("add more")}>Add More</option>
-                    </select>
-                </div>
-            )
-        }
-       
-
-    const listAll = props.data.map((template) =>{
         return(
             <option key={template.id} value={template.id}>{template.id}</option>
         )
     })
 
-
- 
-    // this function gets specific json obj data and sends it to form()
-    // if obj exists then get and send data to form, else, send no args to form.
-    function mkForm(event) {
+    /* this function looks for an object using it's ID in the URI. if the URL is valid, then the object exists and its data gets passed. if the URL doesn't exist, then empty values are passed instead. */
+/*    function mkForm(event) {
         const selection = event.target.value;
         if(selection !== "newTemplate"){
             fetch(`http://localhost:3000/custom/${selection}`)
@@ -65,13 +35,15 @@ function Templates (props){
                 console.log(Object.entries(objData.data));
                 setTemplateId(objData.id);
                 setTemplateData(objData.data);
-            })
-        } else{
-            setTemplateId("");
-            setTemplateData([]);
-        }
-    }
+            })} else {setTemplateId("");setTemplateData([]);}}
+*/
 
+        function dropdownHandler(event) {
+            console.log("mkForm")
+            setSelectedObj(event.target.value);
+        }
+
+    // this function takes 2 arguments, the objects id to be used in the URI and it's properties
     function postChanges(obj, title){
         console.log(obj);
         console.log(title);
@@ -82,15 +54,17 @@ function Templates (props){
             headers: {"Content-type": "application/JSON; charset=UTF-8"}
         }) .then((response) => response.json())
         .then((newData) => {console.log(newData); setTemplateData((oldData)=>oldData = newData.data)});
-    }
+    } //
     
     return(
         <div>
-            <select onChange={mkForm}>
+            <select onChange={dropdownHandler}>
                 <option value="newTemplate"></option>
-                {listAll}
+                {listTemplates}
             </select>
             <Form title={templateId} data={templateData} change={postChanges} />
+            <p> although the input fields don't update when the template changes, they also don't represent the actual value</p>
+            <p> Make input field text always match actual value</p>
         </div>
     )
 }

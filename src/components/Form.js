@@ -16,9 +16,7 @@ function Form({ title, data, change}) {
 
     useEffect(()=>{
         update();
-        
-        //console.log("used effect")
-    }, [title]) // watches title bc the dropdown options change this and I need the form to update on change
+    }, [title]) // updates the form, but the text in the input fields persist through forms and submits
 
     function update() {
         setTitle(title);
@@ -35,6 +33,7 @@ function Form({ title, data, change}) {
     }
 
     // adding to DeleteItems works, but a new input is created everytime the change event is triggered
+    // currently unused while testing other functions. Will be used in final submit function
     function handleKey(event, item){
         event.preventDefault();
         let newKey = event.target.value;
@@ -43,9 +42,9 @@ function Form({ title, data, change}) {
         }
         console.log(newKey);
         //console.log(thisKey);
-
     }
-    // works, label changes with input when any key changes
+
+    // works
     function handleValue(event, key){
         event.preventDefault();
         let newValue = event.target.value;
@@ -54,9 +53,7 @@ function Form({ title, data, change}) {
         } else{
             testObj[key] = event.target.placeholder; //placeholder will get updated in final submit function
         }
-        
         //console.log(`testObj ${JSON.stringify(testObj) }`);   
-
     }
 
     const showData = dataArray.map((item)=>{
@@ -66,7 +63,6 @@ function Form({ title, data, change}) {
             <div key={index}>
             <label>{item[0]}</label>
             <input type="text" id={`value${index}`} placeholder={item[1]} onChange={(event)=>handleValue(event, item[0])}/>
-    
             </div>
         )
     })
@@ -80,6 +76,8 @@ function Form({ title, data, change}) {
         //console.log(`title: ${title}`)
         console.log(`data: ${JSON.stringify(data)}`);
     
+        change(currentData, title);
+        /*
         fetch(`http://localhost:3000/custom/${title}`,{
             method: "PUT",
             body: JSON.stringify({
@@ -87,7 +85,7 @@ function Form({ title, data, change}) {
             headers: {"Content-type": "application/JSON; charset=UTF-8"}
         }) .then((response) => response.json())
         .then((newData) => {console.log(newData); setData((oldData)=>[...Object.entries(newData.data)])});
-
+*/
        setData(testObj);
        //change(currentData, title);
     }
