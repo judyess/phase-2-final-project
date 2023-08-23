@@ -13,8 +13,6 @@ function Templates (props){
 
     //console.log(props.data[1].id);
 
-
-
     const listTemplates = props.data.map((template) =>{
 
         return(
