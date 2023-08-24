@@ -14,6 +14,11 @@ function Home() {
             <br/>
             The app needs to reset the input fields to reflect the selected template as the option changes.
             The "title" field displaying the "id" resets to match the data, but the other fields do not.
+            <br/>
+            <br/>
+            Removed "exact" from the Home route. When an incorrect URL is entered, then it will just load the Home component.
+            However, when it does that, the URL remains the same incorrect one and doesn't update to reflect the Home component.
+            Also, moved the Home route to the end bc it was returning true for every URI 
         </div>
     )
 }

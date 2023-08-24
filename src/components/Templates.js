@@ -1,66 +1,83 @@
 import {React, useEffect, useState} from "react";
 import Form from "./Form"
 
-function Templates (props){
-    const objs = {};
-    const [templateId, setTemplateId] = useState("");
-    const [templateData, setTemplateData] = useState([]);
-    const [selectedObj, setSelectedObj] = useState();
+function Templates (){
+    const [option, setOption] = useState();
+    const [serverData, setData] = useState([]);
+    const [dropdownOptions, setDropdown] = useState();
+    const [IdList, setIdList] = useState([]);
 
-    useEffect((x) => {
-        console.log("used effect");
-    }, selectedObj);
+  
+    // initializes local data with server data. set ServerData.
+    useEffect(() => {
+      getFetch();
+    }, []); // data = [{test}, {test2}]
 
-    //console.log(props.data[1].id);
 
-    const listTemplates = props.data.map((template) =>{
-
-        return(
-            <option key={template.id} value={template.id}>{template.id}</option>
-        )
-    })
-
-    /* this function looks for an object using it's ID in the URI. if the URL is valid, then the object exists and its data gets passed. if the URL doesn't exist, then empty values are passed instead. */
-/*    function mkForm(event) {
-        const selection = event.target.value;
-        if(selection !== "newTemplate"){
-            fetch(`http://localhost:3000/custom/${selection}`)
-            .then((response) => response.json())
-            .then((objData)=>{
-                const strData = JSON.stringify(objData);
-                console.log(objData)
-                console.log(`objData.data + ${strData}`);
-                console.log(Object.entries(objData.data));
-                setTemplateId(objData.id);
-                setTemplateData(objData.data);
-            })} else {setTemplateId("");setTemplateData([]);}}
-*/
-
-        function dropdownHandler(event) {
-            console.log("mkForm")
-            setSelectedObj(event.target.value);
+// TESTING: URI set to "test"
+// get server data, all or specific. (sets "serverData")
+    function getFetch() {
+        let URI;
+        console.log("fetching...")
+        if(option){
+            URI = {option};
+            console.log("true");
+            console.log(URI);
+        } else {
+            URI = "";
+            console.log("null");
         }
+        fetch(`http://localhost:3000/custom/${URI}`)
+        .then((response)=>response.json())
+        .then((arrayOfServerData) => {
+            JSON.stringify(arrayOfServerData);
+            setData(arrayOfServerData);
+            })
+    }
 
-    // this function takes 2 arguments, the objects id to be used in the URI and it's properties
-    function postChanges(obj, title){
-        console.log(obj);
-        console.log(title);
-        fetch(`http://localhost:3000/custom/${title}`,{
-            method: "PUT",
-            body: JSON.stringify({
-                data:obj}),
-            headers: {"Content-type": "application/JSON; charset=UTF-8"}
-        }) .then((response) => response.json())
-        .then((newData) => {console.log(newData); setTemplateData((oldData)=>oldData = newData.data)});
-    } //
+    /* Took out of fetch bc of errors
+            setIdList((item)=>arrayOfServerObjects.map((object)=>{object["id"]}));
+            setDropdown((item)=>arrayOfServerObjects.map((object)=>{object["id"]}))
+    */
+    const parseData = Object.entries(serverData);
+    console.log(parseData); 
+    /* RETURNS:
+        parseData = [
+            [0, {id, data}],
+            [1, {id, data}]
+        ]
+    */
+
+    console.log(serverData); // already jsonified
+    /* RETURNS:
+        serverData = [
+            [{id, data}],
+            [{id, data}]
+        ]
+    */
+
+     // ----- HANDLERS -----
+
+    function dropdownHandler(event) {
+        setOption(event.target.value);
+    }
+
+    // ----- DOM creators ----
+    //const testData = Object.entries(serverData);
+    const dropdown = serverData.map((object) =>{
+        return(
+            <option key={object.id} value={object.id}>{object.id}</option>
+     )})
+
     
     return(
         <div>
             <select onChange={dropdownHandler}>
                 <option value="newTemplate"></option>
-                {listTemplates}
+                {dropdown}
             </select>
-            <Form title={templateId} data={templateData} change={postChanges} />
+            <Form objectData={serverData} />
+
             <p> although the input fields don't update when the template changes, they also don't represent the actual value</p>
             <p> Make input field text always match actual value</p>
         </div>

@@ -1,3 +1,4 @@
+/*
 import {React} from "react";
 
 
@@ -67,3 +68,4 @@ function Display(props) {
 }
 
 export default Display;
+*/
