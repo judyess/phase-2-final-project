@@ -1,0 +1,8 @@
+Changing program to work with JSONified data instead of working from an array of the data. JSON.stringify doesn't mutate the data. (is mutate the right word?)
+
+Used JSON.stringify(data) in the fetch call to convert the data, instead of using Object.entries(data) and then having to create another variable to hold the "array-version". I suspect that using Object.entries was mutating the server data anyway.
+
+Removed a lot of variables holding redundant data.
+
+removed const localData from Form because it was holding Object.entries(serverData). Replaced const localData with the direct reference to the prop.
+

@@ -4,51 +4,35 @@ import Form from "./Form"
 function Templates (){
     const [option, setOption] = useState();
     const [serverData, setData] = useState([]);
-    const [dropdownOptions, setDropdown] = useState();
-    const [IdList, setIdList] = useState([]);
-
   
-    // initializes local data with server data. set ServerData.
     useEffect(() => {
       getFetch();
-    }, []); // data = [{test}, {test2}]
+    }, []); 
 
 
-// TESTING: URI set to "test"
-// get server data, all or specific. (sets "serverData")
     function getFetch() {
         let URI;
-        console.log("fetching...")
         if(option){
+            console.log("option = true, setting URI...");
             URI = {option};
-            console.log("true");
             console.log(URI);
         } else {
             URI = "";
-            console.log("null");
+            console.log("URI is null");
         }
+        console.log("fetching...")
         fetch(`http://localhost:3000/custom/${URI}`)
         .then((response)=>response.json())
         .then((arrayOfServerData) => {
+            console.log("jsonifying server data...");
             JSON.stringify(arrayOfServerData);
-            setData(arrayOfServerData);
+            setData(arrayOfServerData); // the only line that sets serverData, but the if block is not triggering.
+            console.log()
             })
     }
 
-    /* Took out of fetch bc of errors
-            setIdList((item)=>arrayOfServerObjects.map((object)=>{object["id"]}));
-            setDropdown((item)=>arrayOfServerObjects.map((object)=>{object["id"]}))
-    */
-    const parseData = Object.entries(serverData);
-    console.log(parseData); 
-    /* RETURNS:
-        parseData = [
-            [0, {id, data}],
-            [1, {id, data}]
-        ]
-    */
 
-    console.log(serverData); // already jsonified
+    //console.log(serverData); 
     /* RETURNS:
         serverData = [
             [{id, data}],
@@ -56,20 +40,23 @@ function Templates (){
         ]
     */
 
-     // ----- HANDLERS -----
+     // ----- HANDLERS ----- only finds info, makes no changes
 
     function dropdownHandler(event) {
         setOption(event.target.value);
     }
 
     // ----- DOM creators ----
-    //const testData = Object.entries(serverData);
+    // const dropdown only creates an array of the data, which is used as a reference to build the dropdown menu
+    // data here directly takes the jsonified server data and its ONLY used to build the dropdown
+    // no data is changed
     const dropdown = serverData.map((object) =>{
         return(
             <option key={object.id} value={object.id}>{object.id}</option>
      )})
 
-    
+     // Form is being sent the JSONified"serverData" straight from the fetch call
+     // No changes made to data between the fetch call and sending it to Form
     return(
         <div>
             <select onChange={dropdownHandler}>
@@ -77,9 +64,7 @@ function Templates (){
                 {dropdown}
             </select>
             <Form objectData={serverData} />
-
-            <p> although the input fields don't update when the template changes, they also don't represent the actual value</p>
-            <p> Make input field text always match actual value</p>
+            <p> Make sure the input field text always match actual value</p>
         </div>
     )
 }

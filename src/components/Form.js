@@ -1,38 +1,30 @@
 import {React, useState} from "react";
-//create a reset button that restores input fields to original server data
-// not sure how to make the data fields editable
-// FIGURE OUT HOW TO UPDATE TBLDATA INPUT FIELDS, RAGHHHH
+
 function Form(props) {
 
-
-    //const localData = [...Object.entries(props.objectData)];
-    const testObj = {...props.objectData};
+    // props.objectData holds a state object. What happens if we assign that to a regular variable?
+    const testObj = {...props.objectData}; // THIS WAS USED TO HOLD THE NEW JSON OBJECT FOR POST/PUT
     const [deleteItems, setDeleteItems] = useState([]);
 
-
-
-
-
-    //works, use state currentTitle to update new Obj
+    //works, should this be a state var???
     function handleNewTitle(event) {
         event.preventDefault();
         let objId = event.target.value;
         console.log(objId);
     }
 
-    // adding to DeleteItems works, but a new input is created everytime the change event is triggered
-    // currently unused while testing other functions. Will be used in final submit function
+    // adding to DeleteItems works, check that the form is updating correctly. 
+    // bc Previously was creating new inputs with each change
     function handleKey(event, item){
         event.preventDefault();
         let newKey = event.target.value;
         if (!deleteItems.includes(item[0])){
-            setDeleteItems((deleteItems)=>[...deleteItems, item[0]]); //works but now creates new inputs
+            setDeleteItems((deleteItems)=>[...deleteItems, item[0]]); 
         }
         console.log(newKey);
-        //console.log(thisKey);
     }
 
-    // works
+    // works, simple regular HTML like form handling
     function handleValue(event, key){
         event.preventDefault();
         let newValue = event.target.value;
@@ -41,11 +33,10 @@ function Form(props) {
         } else{
              console.log("dropdown option was null")
         }
-        //console.log(`testObj ${JSON.stringify(testObj) }`);   
     }
 
-    const localData = Object.entries(props.objectData);
-    const generateForm = localData.map((item)=>{
+// -------------<Input> tags creator-----------------
+    const formViewer = props.objectData.map((item)=>{
         const index = props.objectData.indexOf(item);
         return(
             <div key={index}>
@@ -57,7 +48,8 @@ function Form(props) {
 
     function print(event) {
         event.preventDefault();
-        console.log(props.objectData);
+        console.log(formViewer);
+
         
         /*
         fetch(`http://localhost:3000/custom/${title}`,{
@@ -76,7 +68,7 @@ function Form(props) {
         <div>
             <form id="myForm" onSubmit={print}>
                 <input value={props.objectData.id} onChange={handleNewTitle}/>
-                {generateForm}
+                {formViewer}
                 <button type="submit">Submit</button>
             </form>
         </div>
