@@ -7,13 +7,10 @@ import Templates from "./Templates";
 function App() {
 
   /*
-  8/23 8:41 pm: some items have the same key. 
-  
+  8/23 8:41 pm: some items have the same key.  
   Remember that we have the stringified data from fetch, 
   so I don't need to format it again for use.
-
   */
-
 
   return (
     <div className="App">

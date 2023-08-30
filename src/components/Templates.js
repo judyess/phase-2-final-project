@@ -2,35 +2,58 @@ import {React, useEffect, useState} from "react";
 import Form from "./Form"
 
 function Templates (){
-    const [option, setOption] = useState();
+    const [option, setOption] = useState("");
+    const [select, setSelect] = useState([]);
     const [serverData, setData] = useState([]);
-  
+    const [title, setTitle] = useState("");
+
+    console.log("Component restart");
+
     useEffect(() => {
-      getFetch();
-    }, []); 
+        console.log("useEffect");
+        fetch(`http://localhost:3000/custom/${option}`)
+        .then((response)=>response.json())
+        .then((arrayOfServerData) => {
+          console.log("fetched");
+          JSON.stringify(arrayOfServerData);
+          console.log(arrayOfServerData);
+          if(Array.isArray(arrayOfServerData)) {
+            setSelect(arrayOfServerData);
+            setData({id:"", data:{}});
+          } else {
+            console.log("not Array")
+            setData(Object.entries(arrayOfServerData.data));
+            setTitle(arrayOfServerData.id);
+          }
+            }); 
+        return(console.log("hi"));
+    },  [option]);
 
+    function cleanup() {
 
+    }
+
+    /*
     function getFetch() {
-        let URI;
+        console.log("getFetch");
         if(option){
-            console.log("option = true, setting URI...");
+            console.log("if (option) = true");
             URI = {option};
             console.log(URI);
         } else {
             URI = "";
-            console.log("URI is null");
+            console.log("else, (option) = false");
         }
-        console.log("fetching...")
+        console.log(URI);
         fetch(`http://localhost:3000/custom/${URI}`)
         .then((response)=>response.json())
         .then((arrayOfServerData) => {
-            console.log("jsonifying server data...");
+            console.log("fetched");
             JSON.stringify(arrayOfServerData);
-            setData(arrayOfServerData); // the only line that sets serverData, but the if block is not triggering.
-            console.log()
-            })
+            console.log(arrayOfServerData);
+            setData(arrayOfServerData);})
     }
-
+    */
 
     //console.log(serverData); 
     /* RETURNS:
@@ -41,29 +64,36 @@ function Templates (){
     */
 
      // ----- HANDLERS ----- only finds info, makes no changes
-
     function dropdownHandler(event) {
         setOption(event.target.value);
+        //setURI(`${event.target.value}`);
+        testfn(testStr);
     }
 
     // ----- DOM creators ----
     // const dropdown only creates an array of the data, which is used as a reference to build the dropdown menu
     // data here directly takes the jsonified server data and its ONLY used to build the dropdown
     // no data is changed
-    const dropdown = serverData.map((object) =>{
+    const dropdown = select.map((object) =>{
         return(
             <option key={object.id} value={object.id}>{object.id}</option>
      )})
+
+     function testfn(callback) {
+        
+     }
+     
+     const testStr = console.log("callback");
 
      // Form is being sent the JSONified"serverData" straight from the fetch call
      // No changes made to data between the fetch call and sending it to Form
     return(
         <div>
             <select onChange={dropdownHandler}>
-                <option value="newTemplate"></option>
+                <option value=""></option>
                 {dropdown}
             </select>
-            <Form objectData={serverData} />
+            <Form title={title} data={serverData}/>
             <p> Make sure the input field text always match actual value</p>
         </div>
     )

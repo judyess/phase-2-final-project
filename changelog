@@ -6,3 +6,16 @@ Removed a lot of variables holding redundant data.
 
 removed const localData from Form because it was holding Object.entries(serverData). Replaced const localData with the direct reference to the prop.
 
+(!!!) Temporarily Storing the code I used to handle deleting objects and replacing them here, to reduce clutter (!!!)
+
+        const [deleteItems, setDeleteItems] = useState([]);
+
+    // adding to DeleteItems works, check that the form is updating correctly. 
+    function handleKey(event, item){
+        event.preventDefault();
+        let newKey = event.target.value;
+        if (!deleteItems.includes(item[0])){
+            setDeleteItems((deleteItems)=>[...deleteItems, item[0]]); 
+        }console.log(newKey);}
+
+
