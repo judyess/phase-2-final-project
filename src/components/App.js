@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import Navbar from "./Navbar";
 import Home from "./Home";
 import Templates from "./Templates";
+import Creator from "./Creator";
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Switch>
           
           <Route exact path="/templates"><Templates /></Route>
+          <Route exact path="/creator"><Creator /></Route>
           <Route path="/"><Home /></Route>
           {/*<Route exact path="/display"><Display data = {data}/></Route>*/}
         </Switch>
