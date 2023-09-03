@@ -1,21 +1,21 @@
 import {React, useState} from "react";
 
 function Form(props) {
+    const [objData, setObjData] = useState()
+    const [obj, setObj] = useState(props.data);
+    const [title, setTitle] = useState(props.title);
+
+    
     //console.log(props);
     //console.log(props.objectData);
     /*
         props = {[{id:test}, {id:test2}]}
     */
 
+        const data = props.data;
+        console.log(data);
+        const objArray = Object.entries(data);
 
-    // props.objectData holds a state object. What happens if we assign that to a regular variable?
-    //const propData = {...props.objectData}.data; // THIS WAS USED TO HOLD THE NEW JSON OBJECT FOR POST/PUT
-    /*console.log(Object.entries(propData["data"]));
-    try {
-        console.log(Object.entries(propData["data"]));}
-    catch {
-        console.log(propData);
-    }*/
     /*
         propData = {
             0 : {custom[1]},
@@ -35,34 +35,49 @@ function Form(props) {
     // works, simple regular HTML like form handling
     function handledBValue(event, key){
         event.preventDefault();
-        let newValue = event.target.value;
+        let newValue = event.target.value.key;
+        setObjData(event.target.value);
+        console.log(newValue);
+        
         if(event.target.value !== ""){
-            console.log(newValue);
+            console.log(objData);
+
         } else{
              console.log("dropdown option was null")
         }
     }
 
+    
 // -------------<Input> tags creator-----------------
 
-    const formViewer = props.data.map((item)=>{
-        const index = props.objectData.indexOf(item);
+    const formViewer = objArray.map((item)=>{
+        const index = objArray.indexOf(item);
+        console.log(Object.entries(data)[`${title}`]); // [[key:value], [key:value]]
+        console.log((Object.entries(data)))
+        // key = Object.entries(data)[0][0]
+        // value = Object.entries(data)[0][1]
+        //item = Object.entries(data)[0] = ['key', 'value']
+        console.log(Object.entries(data)[{index}]); // ['key', 'value']
+        //const key = ${props.title}${index};
         return(
-            <div key={index}>
-            <label>{item[0]}</label>
-            <input type="text" id={`value${index}`} placeholder={item[1]} onChange={(event)=>handledBValue(event, item[0])}/>
+            <div key={`${props.title}${index}`}>
+            {/*<label key={`${props.title}${index}`}>{item[0]}</label>*/}
+            <input type="text" key={`${props.title}${index}`} placeholder={item[1]} onChange={(event)=>handledBValue(event, item[0])}/>
+            <label>{`value ${index}`}</label>
             </div>
         )
     })
 
 
-
     function print(event) {
         event.preventDefault();
         console.log();
-        //console.log(formViewer);
-        //console.log(propData);
-       
+        console.log(event.target.value);
+        console.log(formViewer);
+        /*
+        [{lab}]
+
+        */
         /*
         fetch(`http://localhost:3000/custom/${title}`,{
             method: "PUT",

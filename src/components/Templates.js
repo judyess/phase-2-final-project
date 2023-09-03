@@ -5,6 +5,7 @@ function Templates (){
     const [option, setOption] = useState("");
     const [select, setSelect] = useState([]);
     const [serverData, setData] = useState([]);
+
     const [title, setTitle] = useState("");
 
     console.log("Component restart");
@@ -19,18 +20,19 @@ function Templates (){
           console.log(arrayOfServerData);
           if(Array.isArray(arrayOfServerData)) {
             setSelect(arrayOfServerData);
-            setData({id:"", data:{}});
+            //setData({id:"", data:{}});
           } else {
             console.log("not Array")
-            setData(Object.entries(arrayOfServerData.data));
+            setData(arrayOfServerData.data);
             setTitle(arrayOfServerData.id);
           }
             }); 
-        return(console.log("hi"));
+        return(reset());
     },  [option]);
 
-    function cleanup() {
-
+    function reset(){
+        setTitle("");
+        setData([]);
     }
 
     /*
@@ -67,7 +69,7 @@ function Templates (){
     function dropdownHandler(event) {
         setOption(event.target.value);
         //setURI(`${event.target.value}`);
-        testfn(testStr);
+        //testfn(serverData);
     }
 
     // ----- DOM creators ----
@@ -79,14 +81,10 @@ function Templates (){
             <option key={object.id} value={object.id}>{object.id}</option>
      )})
 
-     function testfn(callback) {
-        
-     }
-     
-     const testStr = console.log("callback");
+    function myChild(){
+        console.log("no")
+    }
 
-     // Form is being sent the JSONified"serverData" straight from the fetch call
-     // No changes made to data between the fetch call and sending it to Form
     return(
         <div>
             <select onChange={dropdownHandler}>
