@@ -1,9 +1,11 @@
 import {React, useState} from "react";
+import Message from "./Message";
 
 function Creator(props) {
 
-    let objBody ={};
+    let templateData ={};
     const [title, setTitle] = useState("");
+    const [stat, setStat] = useState("");
 
     /*
         Works! Except that an error is returned if you try to post a new object
@@ -19,9 +21,10 @@ function Creator(props) {
           type: "text",
           id: 1,
           value: ""
-        }
-      ];
+        }];
+
       const [arr, setArr] = useState(inputArr);
+
       const addInput = () => {
         setArr(s => {
           return [
@@ -33,116 +36,83 @@ function Creator(props) {
           ];
         });
       };
-      const handleChange = e => {
-        e.preventDefault();
-        const index = e.target.id;
-        objBody[index] = e.target.value;
+
+      function handleChange(error){
+        error.preventDefault();
+        const index = error.target.id;
+        templateData[index] = error.target.value;
         setArr(s => {
           const newArr = s.slice();
-          newArr[index].value = e.target.value;
+          newArr[index].value = error.target.value;
           return newArr;
-        });
-        
+        });   
       };
 
       function getTitle(event) {
         event.preventDefault();
         setTitle(event.target.value);
-      }
+      };
 
-      function submit(event) {
-        event.preventDefault();
-        arr.map((obj)=>{
-            objBody[obj.value] = "";
-        })
-        console.log(props.selections);
-        console.log(objBody);
-        console.log(title);
-      }
 
       function submitData(event) {
         event.preventDefault();
         arr.map((obj)=>{
             if(obj.value !== "") {
-            objBody[obj.value] = "";
+              templateData[obj.value] = "";
             }
+            return obj;
         })
-        try{
-        fetch("http://localhost:3000/custom",{
-            method: "POST",
-            body: JSON.stringify({
-                id: title,
-                data: objBody
-            }),
-            headers: {"Content-type": "application/JSON; charset=UTF-8"}
-        }) .then((response) => response.json())
-        .then((data) => console.log(data));
-     } catch (err) {
-        console.log("error");
-     }
+          fetch("http://localhost:3000/custom",{
+              method: "POST",
+              body: JSON.stringify({
+                  id: title,
+                  data: templateData
+              }),
+              headers: {"Content-type": "application/JSON; charset=UTF-8"}
+          }).then((response) => {
+            if(response.ok) {
+              setStat("Success!");
+              response.json();
+          } else {
+            setStat("Error");
+            return console.log("Try Again");
+          }
+          })
+          .then((data) => {
+            console.log(data)
+            setTimeout(clear, 3000);
+            return JSON.stringify(data);
+            });
     }
 
-    
+    function clear() {
+      setStat("");
+    }
+
       return (
         <div> 
             <form onSubmit={submitData}>
-            <input placeholder="Enter a Title" onChange={getTitle}/>
-            {arr.map((item, i) => {           
+            <input placeholder="Enter a Title" onChange={getTitle}/><br/><br/>
+            {arr.map((item, keyVal) => {           
                 return (
-                    <div key={i}>
-                    <label>{i}</label>
+                    <div key={keyVal}>
                     <input
                         onChange={handleChange}
                         placeholder="Enter a Field Name"
                         value={item.value}
-                        id={i}
+                        id={keyVal}
                         type={item.type}
                         size="40"/>
                     </div>   
                 );
-          })}
-          <button type="submit">Submit</button>
+          })} <button type="button" onClick={addInput}>Add Field</button> {/* have to have type, button, otherwise it will act like its submitting the form*/}
+          <br/><br/>
+          <button type="submit">Create Template</button>
+          
           </form>
-          <button onClick={addInput}>+</button>
+          <label>{stat}</label>
         </div>
       );
-      //---------------- End of Credit: https://stackoverflow.com/a/66470038/3127614
-    
-    /*
-    const [newTitle, setNewTitle] = useState("New-Template");
-    const [dataFields, setDataFields] = useState({});
-
-    function newDataPoint(event){
-        event.preventDefault();
-        return(
-            <input placeholder="Enter Field Name"></input>
-        )
-    }
-
-    function submitData(event) {
-        event.preventDefault();
-        fetch("http://localhost:3000/custom",{
-            method: "POST",
-            body: JSON.stringify({
-                id:newTitle,
-                body: dataFields
-            }),
-            headers: {"Content-type": "application/JSON; charset=UTF-8"}
-        }) .then((response) => response.json())
-        .then((data) => console.log(data));
-    }
-
-    return(
-        <div>
-            <form>
-            <input placeholder="Enter a Title" />
-            <br/>
-            <input placeholder="Enter Field Name" />
-            <button onClick={newDataPoint}>Add New Field</button>
-            </form>
-        </div>
-    )
-    */
 }
 
 

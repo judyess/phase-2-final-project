@@ -8,7 +8,7 @@ function Templates (){
     const [title, setTitle] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:3000/custom/${option}`)
+        fetch(`http://localhost:3000/custom/${title}`)
         .then((response)=>response.json())
         .then((arrayOfServerData) => {
           JSON.stringify(arrayOfServerData);
@@ -29,6 +29,7 @@ function Templates (){
 
     function dropdownHandler(event) {
         setOption(event.target.value);
+        setTitle(event.target.value);
     }
 
     function postData(objData) {
@@ -53,8 +54,8 @@ function Templates (){
                 <option value=""></option>
                 {dropdown}
             </select>
+            <br/><br/>
             <Form title={title} data={serverData} func={postData}/>
-            <p> Make sure the input field text always match actual value</p>
         </div>
     )
 }
