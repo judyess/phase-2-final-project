@@ -50,7 +50,8 @@ function Creator(props) {
 
       function getTitle(event) {
         event.preventDefault();
-        setTitle(event.target.value);
+        setTitle((old)=>{
+          return((event.target.value).replace(" ", "-"))});
       };
 
 
