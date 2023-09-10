@@ -3,7 +3,8 @@
 
 **DESCRIPTION:**
 
-This app lets you create templates and edit data
+This app lets you create templates and edit data. 
+Still needs to be cleaned up. Lots of old code and notes from original project idea to generate tables.
 
 
 **INSTRUCTIONS:**
