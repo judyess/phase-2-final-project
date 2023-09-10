@@ -6,15 +6,8 @@ function Creator(props) {
     const [title, setTitle] = useState("");
     const [stat, setStat] = useState("");
 
-    /*
-        Works! Except that an error is returned if you try to post a new object
-        that does not have a unique id (or title), but idk how to catch the error.
-        App doesn't break when that error occurs though, but without being able to 
-        catch the error, there's no way for me to at least print a message saying
-        that it failed.
-    */
 
-    // ---- Start of Credit: https://stackoverflow.com/a/66470038/3127614
+    // ---- Functions dealing with "Arr", Credit: https://stackoverflow.com/a/66470038/3127614
     const inputArr = [
         {
           type: "text",
