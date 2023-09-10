@@ -9,7 +9,6 @@ function Navbar(){
             <li><NavLink to="/" exact>Home</NavLink></li>
             <li><NavLink to="/editor" exact>Editor</NavLink></li>
             <li><NavLink to="/creator" exact>Creator</NavLink></li>
-            <li><NavLink to="/display" exact>Display</NavLink></li>
             </ul>
         </div>
     )

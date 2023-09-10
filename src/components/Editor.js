@@ -40,6 +40,7 @@ function Editor (){
             headers: {"Content-type": "application/JSON; charset=UTF-8"}
         }).then((response) => response.json())
         .then((newData)=> console.log(newData));
+        reset();
     }
 
     const dropdown = selections.map((object) =>{
@@ -50,11 +51,13 @@ function Editor (){
 
     return(
         <div>
+            <p>Select the template you would like to edit.</p>
+            <label>Template: </label>
             <select id="titles" onChange={dropdownHandler}>
                 <option value=""></option>
                 {dropdown}
             </select>
-            <br/><br/>
+            <br/>
             <Form title={title} data={serverData} func={postData}/>
         </div>
     )

@@ -20,13 +20,15 @@ function Form(props) {
         return(
             <div key={`${props.title}${index}`}>
            <div><label>{item[0]}</label></div>
-           <div><input type="text" key={`${props.title}${index}`} placeholder={item[1]} onChange={(event)=>handleValue(event, item[0], item[1])}/>
+           <div><input className="inputs" type="text" key={`${props.title}${index}`} placeholder={item[1]} onChange={(event)=>handleValue(event, item[0], item[1])}/>
            </div></div>
         )
     });
+
     
 
-    function post() {
+    function post(event) {
+        event.preventDefault();
         props.func(form);
     }
 
@@ -34,11 +36,11 @@ function Form(props) {
     return(
         <div>
             <form id="myForm" onSubmit={post}>
-                <label>{props.title}</label> 
-                <br/><br/>
-                {formViewer}
+                <h2 className="template-title">{props.title}</h2> 
+                <div className="formBox">{formViewer}</div>
+                
                 <br/>
-                <button id="save" type="submit">Submit</button>
+                <button className="formBox" id="save" type="submit">Update</button>
             </form>
         </div>
     )

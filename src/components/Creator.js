@@ -1,5 +1,4 @@
 import {React, useState} from "react";
-import Message from "./Message";
 
 function Creator(props) {
 
@@ -72,10 +71,10 @@ function Creator(props) {
               headers: {"Content-type": "application/JSON; charset=UTF-8"}
           }).then((response) => {
             if(response.ok) {
-              setStat("Success!");
+              setStat("Success! Go to the Editor to add data to your new template!");
               response.json();
           } else {
-            setStat("Error");
+            setStat("Error: You already have a template with this title.");
             return console.log("Try Again");
           }
           })
@@ -92,6 +91,7 @@ function Creator(props) {
 
       return (
         <div> 
+          <p>Create a new template here: </p>
             <form onSubmit={submitData}>
             <input placeholder="Enter a Title" onChange={getTitle}/><br/><br/>
             {arr.map((item, keyVal) => {           
