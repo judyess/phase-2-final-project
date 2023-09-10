@@ -3,7 +3,7 @@
 
 **DESCRIPTION:**
 
-This app lets create templates and edit data
+This app lets you create templates and edit data
 
 
 **INSTRUCTIONS:**
