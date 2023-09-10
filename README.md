@@ -1,29 +1,18 @@
-8/9
 
-id is set to the table's title, so it can be accessed by URI.
-(need to catch errors for duplicate table names)
+# Data Builder
 
-table data is an object of header keys with array values.
+**DESCRIPTION:**
 
-
-8/17
-This app is now going to allow users to create templates and add/edit server data.
-Such as personnel contact cards, etc. (instead of creating tables)
-
-Data format:
-{ custom: [
-    {
-        id: {title},
-        card: {
-            data1: [value],
-            data2: [value]
-        }
-    }
-]}
+This app lets create templates and edit data
 
 
--------------------
-how-to use:
-start the server:
-    run >> json-server --watch db.json
-    >> npm start
+**INSTRUCTIONS:**
+1. In terminal, start the json server `>> json-server --watch db.json`
+2. Open the app by starting a second terminal and run `>> npm start`
+3. `CTRL+C` to end the session
+
+
+
+
+
+

@@ -1,6 +1,24 @@
-body {
+
+
+.App {
     width: 99%;
     margin: 0 auto;
+}
+
+.main-links {
+    width: 95%;
+    margin: 1px;
+    border: 1px solid black
+}
+
+.main-links li {
+    display: inline;
+    margin-right: 5%;
+    font-size: 1.2em;
+}
+
+.header {
+    text-align:center;
 }
 
 
@@ -19,7 +37,6 @@ td {
     height: 30px;   
 }
 
-
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }   /* credit: https://www.w3schools.com/howto/howto_css_table_zebra.asp */
@@ -29,7 +46,6 @@ thead {
     height:70px;
     border: 1px solid black;
 }
-
 
 .searchBox {
     width: 45%;
@@ -75,4 +91,9 @@ section {
 
 .output {
     float: right;
+}
+
+li{
+    display: inline;
+    margin-right: 10px;
 }

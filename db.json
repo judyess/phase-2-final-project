@@ -60,6 +60,17 @@
         "Income ": "189000"
       },
       "id": "The-Vic"
+    },
+    {
+      "id": "sample1",
+      "data": {
+        "First": "",
+        "Last": "",
+        "Title": "",
+        "Address": "",
+        "Email": "",
+        "Number": ""
+      }
     }
   ]
 }

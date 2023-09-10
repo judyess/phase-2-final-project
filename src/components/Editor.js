@@ -1,14 +1,14 @@
 import {React, useEffect, useState} from "react";
 import Form from "./Form"
 
-function Templates (){
+function Editor (){
     const [option, setOption] = useState("");
     const [selections, setSelections] = useState([]);
     const [serverData, setData] = useState([]);
     const [title, setTitle] = useState("");
 
     useEffect(() => {
-        fetch(`http://localhost:3000/custom/${title}`)
+        fetch(`http://localhost:3000/custom/${option}`)
         .then((response)=>response.json())
         .then((arrayOfServerData) => {
           JSON.stringify(arrayOfServerData);
@@ -38,7 +38,7 @@ function Templates (){
             body: JSON.stringify({
                 data:objData}),
             headers: {"Content-type": "application/JSON; charset=UTF-8"}
-        }) .then((response) => response.json())
+        }).then((response) => response.json())
         .then((newData)=> console.log(newData));
     }
 
@@ -60,4 +60,4 @@ function Templates (){
     )
 }
 
-export default Templates
+export default Editor
