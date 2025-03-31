@@ -1,10 +1,7 @@
 
 # Data Builder
+This webapp gives users a GUI for creating and editing JSON databases. 
 
-**DESCRIPTION:**
-
-This app lets you create templates and edit data. 
-Still needs to be cleaned up. Lots of old code and notes from original project idea to generate tables.
 
 
 **INSTRUCTIONS:**
@@ -12,6 +9,10 @@ Still needs to be cleaned up. Lots of old code and notes from original project i
 2. Open the app by starting a second terminal and run `>> npm start`
 3. `CTRL+C` to end the session
 
+3/31/25 Additional requirements to run the app.
+Run: 
+>> npm install react-scripts
+>> npm update
 
 
 
